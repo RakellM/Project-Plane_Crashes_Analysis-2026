@@ -28,5 +28,5 @@
     - Check number of row breaks in ech cell, keep the first appearance
     - Count the number of commas in the new field
     - Create boolean for approximate (if it had `near`)
-    - Create boolean for environment (if it had `Off` then Sea else Land)
+    - Create boolean for environment (if it had `Off` then 'Water' else 'Land')
 
