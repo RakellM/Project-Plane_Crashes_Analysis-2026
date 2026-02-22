@@ -73,8 +73,10 @@
 
 -- Check Quality for columns
 -- ──────────────────────────────────────────
--- SELECT *
--- FROM plane_crashes_data
--- LIMIT 50;
+SELECT *
+FROM plane_crashes_data
+LIMIT 50;
+
+
 
 

@@ -148,6 +148,7 @@ Over the North Sea
     - State, Country
     - Ocean
 - `Near` being used to refer closeness
+- `Off` being used to set Sea/Ocean crash vs Land crash
 - Check if `,` is the only clear separator
 
 ---

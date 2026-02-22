@@ -26,6 +26,12 @@ The final output is an analysis-ready dataset suitable for downstream modeling a
 │   ├── raw/          # Original SQLite database (read-only)
 │   └── processed/    # Cleaned analysis-ready dataset
 │
+├── sql/
+│   ├── 01-Data_Checks.sql           # SQL scripts for extraction
+│   ├── 02_Cleaning.sql              # Data cleaning and transformation in SQL
+│   ├── 03_feature_engineering.sql   # Feature engineering using SQL
+│   └── 04_export.sql                # Export or output scripts (e.g., to CSV)
+│
 ├── notebooks/
 │   ├── 01_extraction.ipynb
 │   ├── 02_cleaning.ipynb
@@ -111,3 +117,19 @@ To reproduce:
 - All transformations are documented.
 - Any assumptions made during cleaning are recorded in `/docs/assumptions.md`.
 
+
+
+---
+---
+
+## Data Processing Pipeline
+
+1. Place the original database in `data/raw/`.
+2. Run the SQL scripts in order:
+    - `sql/01_extraction.sql`
+    - `sql/02_cleaning.sql`
+    - `sql/03_feature_engineering.sql`
+    - `sql/04_export.sql`
+3. Find cleaned data in `data/processed/`.
+
+*See `docs/assumptions.md` and `docs/data_dictionary.md` for field-level details.*
