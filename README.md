@@ -29,6 +29,8 @@ The final output is an analysis-ready dataset suitable for downstream modeling a
 │   └── external/     # External datasets
 │
 ├── sql/
+│   ├──sql/
+│   │   └── 01-Time_Check.sql        # validation check with time field 
 │   ├── 00-Data_Checks.sql           # SQL scripts for extraction
 │   ├── 01-Database_Creation.sql     # Copying original table
 │   └── 02-Cleaning.sql              # Data cleaning and transformation in SQL
@@ -96,6 +98,16 @@ The final output is an analysis-ready dataset suitable for downstream modeling a
 - No integration with external/public datasets at this stage.
 - No deep text mining/NLP on the summary column (this is noted as a next-step opportunity).
 - No predictive modeling or advanced statistical testing included here.
+
+
+### External Data Sources
+
+- Integrat data from the [FAA Aircraft Registry](https://www.faa.gov/licenses_certificates/aircraft_certification/aircraft_registry/releasable_aircraft_download) to standardize and enrich aircraft make/model fields.
+
+- FAA registry can be used to standardize manufacturer and model names for US-registered aircraft where possible.
+- Fuzzy matching was used where exact matches were unavailable.
+- Only public, freely available data was used and properly cited.
+
 
 
 ## Key Data Treatment Decisions & Assumptions
