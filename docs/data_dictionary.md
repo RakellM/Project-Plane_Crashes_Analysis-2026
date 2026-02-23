@@ -1,6 +1,8 @@
 # Data Dictionary
 
 
+## Original Table Fields
+
 | cid | Field | Description | Type | Missing | Primary Key (PK) | 
 | --- | --- | --- | --- | --- | --- | 
 | 01 | date | Date of accident | NVARCHAR(50) |  | No | 
@@ -454,6 +456,53 @@ The airship flew into a thunderstorm and encountered a severe downdraft crashing
 **Analytic Use**: Text analysis for cause patterns, incident clustering.
 
 
+## Processed Table Fields
+
+| cid | Name                          | Description                                                                              | Source   | Primary Key (PK) | Type      | Subtype           | Missing | Missing % |
+|-----|-------------------------------|------------------------------------------------------------------------------------------|----------|------------------|----------|-------------------|---------|-----------|
+| 01  | crash_id                      | Unique identifier (autoincrement)                                                        | derived  | Yes              | INTEGER  | Int               | 0       | 0.00      |
+| 02  | date_month_num                | Month of accident (1-12)                                                                 | derived  | No               | INTEGER  | Int               | 0       | 0.00      |
+| 03  | date_year_num                 | Four-digit year of accident                                                              | derived  | No               | INTEGER  | Int               | 0       | 0.00      |
+| 04  | date_crash                    | Date of accident (ISO format)                                                            | derived  | No               | TEXT     | Date              | 0       | 0.00      |
+| 05  | time_is_approximate           | True if time is approximate ('c' present in raw time)                                    | derived  | No               | INTEGER  | Boolean (0/1)     | 0       | 0.00      |
+| 06  | time_is_utc                   | True if time is UTC ('Z' present in raw time)                                            | derived  | No               | INTEGER  | Boolean (0/1)     | 0       | 0.00      |
+| 07  | time_crash                    | Local time, standardized (HHMM or similar, string)                                       | derived  | No               | TEXT     | Time              | 2,108   | 36.45     |
+| 08  | time_of_day_type              | Categorical: Morning, Afternoon, Evening, Night (based on standardized time)             | derived  | No               | TEXT     | Categorical (4)   | 2,108   | 36.45     |
+| 09  | time_is_AM                    | True if time between midnight and noon                                                   | derived  | No               | INTEGER  | Boolean (0/1)     | 0       | 0.00      |
+| 10  | crash_location_is_approximate | True if location includes "NEAR"                                                         | derived  | No               | INTEGER  | Boolean (0/1)     | 0       | 0.00      |
+| 11  | crash_location_environment_type| Type of environment: 'Water' or 'Land'                                                  | derived  | No               | TEXT     | Categorical (2)   | 0       | 0.00      |
+| 12  | crash_location_text           | Cleaned location information                                                             | raw      | No               | TEXT     | Text              | 6       | 0.10      |
+| 13  | operator_text                 | Cleaned airline/operator name                                                            | raw      | No               | TEXT     | Text              | 21      | 0.36      |
+| 14  | operator_is_military          | True if operator includes 'MILITARY'                                                     | derived  | No               | INTEGER  | Boolean (0/1)     | 0       | 0.00      |
+| 15  | operator_is_private           | True if operator includes 'PRIVATE'                                                      | derived  | No               | INTEGER  | Boolean (0/1)     | 0       | 0.00      |
+| 16  | operator_is_airtaxi           | True if operator includes 'TAXI'                                                         | derived  | No               | INTEGER  | Boolean (0/1)     | 0       | 0.00      |
+| 17  | flight_no_text                | Flight number assigned by operator                                                       | raw      | No               | TEXT     | Text              | 4,501   |77.83      |
+| 18  | route_text                    | Cleaned route or event text                                                              | raw      | No               | TEXT     | Text              |1,495    |25.85      |
+| 19  | route_sep_count               | Number of separators (':' or '-') in route_text                                          | derived  | No               | INTEGER  | Int               |1,495    |25.85      |
+| 20  | route_from_text               | Portion before separator in route_text                                                   | derived  | No               | TEXT     | Text              |1,495    |25.85      |
+| 21  | route_to_multiple_text        | Portion after separator in route_text                                                    | derived  | No               | TEXT     | Text              |1,495    |25.85      |
+| 22  | ac_type_text                  | Aircraft type (cleaned)                                                                  | raw      | No               | TEXT     | Text              |24       |0.42       |
+|23   | ac_type_make_text             | Manufacturer from ac_type_text (before '/')                                              | derived   | No               | TEXT     | Text              |24       |0.42       |
+|24   | ac_type_model_text            | Model from ac_type_text (after '/')                                                      | derived   | No               | TEXT     | Text              |24       |0.42       |
+|25   | registration_text             | ICAO registration                                                                        | raw       | No               | TEXT     | Text              |352      |6.09       |
+|26   | registration_part1_text       | Registration before '/'                                                                  | derived   | No               | TEXT     | Text              |354      |6.12       |
+|27   | registration_part2_text       | Registration after '/'                                                                   | derived   | No               | TEXT     | Text              |5,667    |97.99       |
+|28   | serial_fuselage_nbr_text      | Construction/serial/fuselage number                                                      | raw       | No               | TEXT     | Text              |1,207    |20.87       |
+|29   | aboard_total_count            | Total aboard (passengers + crew), parsed from 'aboard'                                   | derived   | No               | INTEGER   | Int               |40       |0.69       |
+| 30 | aboard_passengers_count | Total aboard (passengers) | derived | No | INTEGER | Int | 543 | 9.39 | 
+| 31 | aboard_crew_count | Total aboard (crew) | derived | No | INTEGER | Int | 539 | 9.32 | 
+| 32 | fatalities_total_count | Total fatalities aboard (passengers + crew) | derived | No | INTEGER | Int | 11 | 0.19 | 
+| 33 | fatalities_passengers_count | Total fatalities aboard (passengers) | derived | No | INTEGER | Int | 558 | 9.65 | 
+| 34 | fatalities_crew_count | Total fatalities aboard (crew) | derived | No | INTEGER | Int | 556 | 9.61 | 
+| 35 | ground_fatalities_count | Total killed on the ground | derived | No | INTEGER | Int | 52 | 0.90 | 
+| 36 | summary_full_text | Brief description of the accident and cause if known | derived | No | TEXT | Text | 385 | 6.66 | 
+| 37 | summary_short_text | First phrase of 'summary_full_text' considering '.' a phrase separator. | derived | No | TEXT | Text | 385 | 6.66 | 
 
 
+
+
+## Deduplication
+
+Duplicate records were identified using strict composite keys (primarily `date_crash`, `time_crash`, `crash_location_text`, `registration_text`, `ac_type_text`). 
+For duplicates, only the first occurrence was retained; no manual curation was performed.
 
