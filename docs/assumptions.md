@@ -17,6 +17,12 @@
 
 - Date:
     - Dates in the table might be in order, so choosing between 1900 / 2000 will depend on previous rows.
+        - Identified that the first `date_year = 00` started in 4899:
+            - anything prior will be 1900
+            - anything after that (inclusive) will be 2000
+
+<img src="../outputs/figures/01-SQL-DateCutOffAssumption.jpg">
+
 
 - Time:
     - Create boolean for approximate time (if it had `c`)
@@ -29,4 +35,6 @@
     - Count the number of commas in the new field
     - Create boolean for approximate (if it had `near`)
     - Create boolean for environment (if it had `Off` then 'Water' else 'Land')
+
+
 
