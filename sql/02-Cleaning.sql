@@ -96,7 +96,7 @@ WITH
             crash_id,
 
             -- -- Date (create a column for each day month, year)
-            date AS date_original,
+            REPLACE(date, '?', '') AS date_original,
             SUBSTR(date, 1, INSTR(date, '-') - 1) AS date_day,
             SUBSTR(
                 SUBSTR(date, INSTR(date, '-') + 1), 
@@ -140,7 +140,12 @@ WITH
                 ELSE TRIM(location )
             END AS location_adj,
             CASE WHEN LOWER(location) LIKE '%near %' THEN 1 ELSE 0 END AS location_approximate,
-            CASE WHEN LOWER(location) LIKE '%off %' THEN "Water" ELSE "Land" END AS crash_environment,
+            CASE 
+                WHEN LOWER(location) LIKE '%off %' OR 
+                    LOWER(location) LIKE '% sea %' OR 
+                    LOWER(location) LIKE '%ocean%' THEN "Water" 
+                ELSE "Land" 
+            END AS crash_environment,
 
             -- -- Operator
             CASE WHEN operator = '?' THEN NULL ELSE TRIM(operator) END AS operator,
@@ -407,7 +412,10 @@ WITH
             date_month2,
             date_year,
             date_year4d,
-            printf('%04d-%02d-%02d', date_year4d, date_month2, date_day) AS date_crash,
+            CASE
+                WHEN date_original IS NULL THEN NULL
+                ELSE printf('%04d-%02d-%02d', date_year4d, date_month2, date_day) 
+            END AS date_crash,
 
             -- -- Time
             time_original,
@@ -416,12 +424,16 @@ WITH
             time4d,
             time_hour,
             time_minutes,
-            printf('%02d:%02d', CAST(time_hour AS INT), CAST(time_minutes AS INT)) AS time_crash,
+            CASE
+                WHEN time_hour IS NULL OR time_minutes IS NULL THEN NULL
+                ELSE printf('%02d:%02d', CAST(time_hour AS INT), CAST(time_minutes AS INT)) 
+            END AS time_crash,
             CASE 
                 WHEN CAST(time_hour AS INT) >= 5 AND CAST(time_hour AS INT) < 12 THEN "Morning"
                 WHEN CAST(time_hour AS INT) >= 12 AND CAST(time_hour AS INT) < 17 THEN "Afternoon"
                 WHEN CAST(time_hour AS INT) >= 17 AND CAST(time_hour AS INT) < 21 THEN "Evening"
                 WHEN CAST(time_hour AS INT) >= 21 OR CAST(time_hour AS INT) < 5 THEN "Night"
+                ELSE NULL
             END AS time_of_day,
             CASE 
                 WHEN CAST(time_hour AS INT) >= 0 AND CAST(time_hour AS INT) < 12 THEN 1
