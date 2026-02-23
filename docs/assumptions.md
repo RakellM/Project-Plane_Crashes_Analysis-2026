@@ -8,13 +8,15 @@
 
 
 
-## `01-Database_Creation.sql`
+## `sql/01-Database_Creation.sql`
 
+- [link](./sql/01-Database_Creation.sql)
 - Added `crash_id` as primary key using autoincrement.
 - Copy all other columns as TEXT so we can make adjustments.
 
-## `02-Cleaning.sql`
+## `sql/02-Cleaning.sql`
 
+-  [link](./sql/02-Cleaning.sql)
 - Date:
     - Dates in the table might be in order, so choosing between 1900 / 2000 will depend on previous rows.
         - Identified that the first `date_year = 00` started in 4899:
@@ -50,11 +52,11 @@
     - Create boolean for military, private and airtaxi
 
 - Flight No:
-    - 
+    - Standardized by replacing '?' or blank with NULL; otherwise left as-is.
 
 - Route:
     - Remove `t:`, `:`, `,-`
-    - Correct writing spaces for separator `-` to ` - ` but keeping when the city name unchanged if there is any
+    - Standardize route separators as " - " except where part of a city name
 
 
 - Aircraft Type
@@ -70,12 +72,26 @@
     - Remove spaces
 
 - Aboard
+    - Extracted total/passenger/crew counts using string parsing; set to NULL if any component was unparseable or '?'.
 
 - Fatalities
+    - Extracted total/passenger/crew counts using string parsing; set to NULL if any component was unparseable or '?'.
 
 - Ground:
-    - Convert `?` to `NULL` but decide what to do next, maybe set default to 0
+    - Set missing or '?' to NULL; 
+    - Did not impute zero by default.
 
 - Summary:
-    -`Unknown` as NULL
+    - `Unknown` as NULL
     - Create a short summary using the first phrase (using `.` as end point of a phrase)
+
+
+## `notebooks/02-Data_Profiling_cleaned.ipynb`
+
+- [link](./notebooks/02-Data_Profiling_cleaned.ipynb)
+- Duplicate records were identified using strict composite keys, primarily (date, time, location), or the entire row where appropriate.
+- For duplicates detected, the first occurrence was retained; all subsequent duplicates were removed automatically.
+- No manual or record-by-record curation was performed for exceptions or special cases.
+- As a result, some records that may be more complete but not the first occurrence might be dropped, and some near-duplicates may remain if they do not match on the chosen key(s).
+- The deduplication logic is fully automated and reproducible for scalability in large datasets.
+
