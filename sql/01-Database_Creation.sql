@@ -3,9 +3,9 @@
 -- DATA CREATE NEW TABLE
 -- ==========================================================================
 
-DROP TABLE IF EXISTS plane_crashes_clean;
+DROP TABLE IF EXISTS plane_crashes_copy;
 
-CREATE TABLE plane_crashes_clean (
+CREATE TABLE plane_crashes_copy (
     crash_id INTEGER PRIMARY KEY AUTOINCREMENT,
     date TEXT,
     time TEXT,
@@ -22,7 +22,7 @@ CREATE TABLE plane_crashes_clean (
     summary TEXT
 );
 
-INSERT INTO plane_crashes_clean (
+INSERT INTO plane_crashes_copy (
     date, time, location, operator, flight_no, route,
     ac_type, registration, cn_ln, aboard,
     fatalities, ground, summary
