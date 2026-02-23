@@ -95,3 +95,13 @@
 - As a result, some records that may be more complete but not the first occurrence might be dropped, and some near-duplicates may remain if they do not match on the chosen key(s).
 - The deduplication logic is fully automated and reproducible for scalability in large datasets.
 
+### Feature Engineering
+
+- Computed fatality rate as `fatalities_total_count / aboard_total_count`; set to NULL if aboard count is zero or missing.
+- Severity is classified as:
+    - `Total`: fatality rate == 1
+    - `High`: fatality rate >= 0.5 but < 1
+    - `Low`: fatality rate > 0 but < 0.5
+    - `None`: fatality rate == 0
+- Cause category is a simple keyword match on the cleaned summary text; if no keyword matches, labeled as 'other'.
+

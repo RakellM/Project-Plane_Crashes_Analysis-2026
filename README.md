@@ -76,6 +76,9 @@ The final output is an analysis-ready dataset suitable for downstream modeling a
     - Total aboard/fatalities/ground casualties
     - Fatality rate
     - Boolean flags for operator type and other categorizations
+    - Computed fatality rate as fatalities divided by total aboard.
+    - Classified severity of crash based on fatality rate (`None`, `Low`, `High`, or `Total` loss).
+    - Parsed summary text to flag likely cause categories (e.g., engine failure, weather).
 
 
 ### 5. Data Profiling & Initial Analysis
