@@ -497,6 +497,9 @@ The airship flew into a thunderstorm and encountered a severe downdraft crashing
 | 35 | ground_fatalities_count | Total killed on the ground | derived | No | INTEGER | Int | 52 | 0.90 | 
 | 36 | summary_full_text | Brief description of the accident and cause if known | derived | No | TEXT | Text | 385 | 6.66 | 
 | 37 | summary_short_text | First phrase of 'summary_full_text' considering '.' a phrase separator. | derived | No | TEXT | Text | 385 | 6.66 | 
+| 38 | fatality_rate | Fatalities / Total aboard  | derived | 0 | INTEGER | Int |  | 
+| 39 | severity_class | Crash severity category (None, Low, High, Total) | derived | 0 | FLOAT | decimal |  | 
+| 40 | cause_category | Crash cause (from summary text) ( engine failure, weather, ...) | derived | 0 | TEXT | Text |  | 
 
 
 
@@ -505,4 +508,5 @@ The airship flew into a thunderstorm and encountered a severe downdraft crashing
 
 Duplicate records were identified using strict composite keys (primarily `date_crash`, `time_crash`, `crash_location_text`, `registration_text`, `ac_type_text`). 
 For duplicates, only the first occurrence was retained; no manual curation was performed.
+
 
